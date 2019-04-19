@@ -42,13 +42,14 @@ String manageRequest(const String &request, ESP8266WiFiMesh &meshInstance) {
   // Of course, it is advised to adjust this approach based on RAM requirements.
 
   /* Print out received message */
-//  Serial.print("Request received: ");
-//  Serial.println(request);
-//
-//  Serial.println("Send request to " + meshNode.getStaticIP().toString() + " from " + meshInstance.getStaticIP().toString());
-//  /* return a string to send back */
-//  //return ("Hello world response #" + String(responseNumber++) + " from " + meshInstance.getMeshName() + meshInstance.getNodeID() + ".");
-//  return "request handled";
+  Serial.print("Request received: ");
+  Serial.println(request);
+
+  Serial.println("received request by " + meshInstance.getStaticIP().toString());
+  Serial.println();
+  /* return a string to send back */
+  //return ("Hello world response #" + String(responseNumber++) + " from " + meshInstance.getMeshName() + meshInstance.getNodeID() + ".");
+  return "request handled";
 }
 
 /**
@@ -59,12 +60,12 @@ String manageRequest(const String &request, ESP8266WiFiMesh &meshInstance) {
    @returns The status code resulting from the response, as an int
 */
 transmission_status_t manageResponse(const String &response, ESP8266WiFiMesh &meshInstance) {
-  transmission_status_t statusCode = TS_TRANSMISSION_COMPLETE;
+  /*transmission_status_t statusCode = TS_TRANSMISSION_COMPLETE;*/
 
   /* Print out received message */
   //Serial.print(F("Request sent: "));
   //Serial.println(meshInstance.getMessage());
-  Serial.print(F("Response received: "));
+  /*Serial.print(F("Response received: "));
   Serial.println(response);
 
   if (response == "request handled"){
@@ -78,7 +79,7 @@ transmission_status_t manageResponse(const String &response, ESP8266WiFiMesh &me
                           //+ meshInstance.getMeshName() + meshInstance.getNodeID() + String(F(".")));
 
   (void)meshInstance; // This is useful to remove a "unused parameter" compiler warning. Does nothing else.
-  return statusCode;
+  return statusCode;*/
 }
 
 /**
@@ -130,12 +131,12 @@ void setup() {
   /* Initialise the mesh node */
   meshNode.begin();
   meshNode.activateAP(); // Each AP requires a separate server port.
-  meshNode.setStaticIP(IPAddress(192, 168, 1, 20)); // Activate static IP mode to speed up connection times.
+  meshNode.setStaticIP(IPAddress(192, 168, 1, 21)); // Activate static IP mode to speed up connection times.
 }
 
 int32_t timeOfLastScan = -10000;
 void loop() {
-  if (millis() - timeOfLastScan > 3000 // Give other nodes some time to connect between data transfers.
+  /*if (millis() - timeOfLastScan > 3000 // Give other nodes some time to connect between data transfers.
       || (WiFi.status() != WL_CONNECTED && millis() - timeOfLastScan > 2000)) { // Scan for networks with two second intervals when not already connected.
     String request = String(F("Hello world request")) + String(F(" from ")) + meshNode.getStaticIP().toString()  + String(F("."));
     meshNode.attemptTransmission(request, false); 
@@ -164,8 +165,8 @@ void loop() {
       }
     }
     Serial.println();
-  } else {
+  } else {*/
     /* Accept any incoming connections */
     meshNode.acceptRequest();
-  }
+  //}
 }
